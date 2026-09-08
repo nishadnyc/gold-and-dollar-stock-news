@@ -140,11 +140,26 @@ a { color: inherit; }
 .row a.headline:hover { color: var(--gold); }
 .dollar .row a.headline:hover { color: var(--green); }
 
+.row .summary {
+  margin: 0.4rem 0 0;
+  font-size: 0.88rem;
+  color: var(--paper-dim);
+  line-height: 1.5;
+}
+
 .row .source-line {
-  margin-top: 0.3rem;
+  margin-top: 0.4rem;
   font-size: 0.78rem;
   color: var(--paper-dim);
 }
+
+.row .read-more {
+  color: var(--gold-deep);
+  text-decoration: none;
+}
+
+.dollar .row .read-more { color: var(--green); }
+.row .read-more:hover { text-decoration: underline; }
 
 /* States */
 .state {

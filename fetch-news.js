@@ -80,6 +80,41 @@ async function fetchCategory(feed) {
   return parseItems(xml).slice(0, ITEMS_PER_CATEGORY);
 }
 
+// Best-effort: pull the article's own og:description/meta description so we
+// can show a real synopsis instead of just the headline. Not every site
+// exposes one (JS-rendered pages, bot blocking) so this can come back empty.
+async function fetchSummary(url, timeoutMs = 6000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, {
+      redirect: 'follow',
+      signal: controller.signal,
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; NewsFetcher/1.0)' },
+    });
+    if (!res.ok) return '';
+    const html = await res.text();
+    const og = html.match(/<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']+)["']/i);
+    const std = html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i);
+    const raw = og?.[1] || std?.[1] || '';
+    const clean = decodeEntities(raw).replace(/\s+/g, ' ').trim();
+    return clean.length > 300 ? clean.slice(0, 297) + '…' : clean;
+  } catch {
+    return '';
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function enrich(items) {
+  return Promise.all(
+    items.map(async (item) => ({
+      ...item,
+      summary: await fetchSummary(item.link),
+    }))
+  );
+}
+
 async function main() {
   const result = {
     updatedAt: new Date().toISOString(),
@@ -87,7 +122,8 @@ async function main() {
 
   for (const feed of FEEDS) {
     try {
-      result[feed.key] = await fetchCategory(feed);
+      const items = await fetchCategory(feed);
+      result[feed.key] = await enrich(items);
     } catch (err) {
       console.error(err.message);
       result[feed.key] = [];

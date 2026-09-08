@@ -35,7 +35,11 @@ function renderRows(el, items) {
           <a class="headline" href="${escapeAttr(item.link)}" target="_blank" rel="noopener">
             ${escapeHtml(item.title)}
           </a>
-          <div class="source-line">${escapeHtml(item.source || 'Unknown source')} · ${formatDate(item.pubDate)}</div>
+          ${item.summary ? `<p class="summary">${escapeHtml(item.summary)}</p>` : ''}
+          <div class="source-line">
+            ${escapeHtml(item.source || 'Unknown source')} · ${formatDate(item.pubDate)}
+            · <a class="read-more" href="${escapeAttr(item.link)}" target="_blank" rel="noopener">Read full story →</a>
+          </div>
         </div>
       </li>
     `)

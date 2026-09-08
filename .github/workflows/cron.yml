@@ -26,8 +26,8 @@ jobs:
 
       - name: Commit and push if changed
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "Nishad"
+          git config user.email "186933450+nishadnyc@users.noreply.github.com"
           git add news.json
           git diff --staged --quiet || git commit -m "chore: update market news [skip ci]"
           git push

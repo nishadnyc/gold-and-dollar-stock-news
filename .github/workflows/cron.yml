@@ -22,7 +22,7 @@ jobs:
           node-version: '20'
 
       - name: Fetch news
-        run: node scripts/fetch-news.js
+        run: node fetch-news.js
 
       - name: Commit and push if changed
         run: |

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gold &amp; Dollar Daily</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,600;1,600&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <h1>Gold <span>&amp;</span> Dollar Daily</h1>
+    <div class="meta">Last updated <strong id="updated-at">—</strong></div>
+  </header>
+
+  <main class="board">
+    <section class="column gold">
+      <div class="column-head">
+        <span class="swatch"></span>
+        <h2>Gold</h2>
+        <span class="count">Top 10</span>
+      </div>
+      <ul class="rows" id="gold-rows">
+        <li class="state">Loading…</li>
+      </ul>
+    </section>
+
+    <section class="column dollar">
+      <div class="column-head">
+        <span class="swatch"></span>
+        <h2>Dollar</h2>
+        <span class="count">Top 10</span>
+      </div>
+      <ul class="rows" id="dollar-rows">
+        <li class="state">Loading…</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    Headlines sourced via Google News RSS, refreshed daily by a GitHub Actions workflow.
+    Data lives in <a href="news.json">news.json</a>.
+  </footer>
+
+</div>
+<script src="app.js"></script>
+</body>
+</html>
